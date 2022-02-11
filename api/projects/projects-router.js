@@ -52,7 +52,7 @@ router.get("/:id/actions", validateProjectId, async (req, res, next) => {
 
 router.use((err, req, res, next) => {
   res.status(err.status || 500).json({
-    customMessage: "something bad happened inside projects router",
+    customMessage: "Problem inside projects router",
     message: err.message,
     stack: err.stack,
   });

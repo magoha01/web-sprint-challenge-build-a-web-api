@@ -23,16 +23,22 @@ router.post("/", validateAction, (req, res, next) => {
     .catch(next);
 });
 
-router.put("/:id", (req, res) => {});
+router.put("/:id", validateActionId, validateAction, (req, res, next) => {
+  Actions.update(req.params.id, req.body)
+    .then((action) => {
+      res.json(action);
+      console.log(action);
+    })
+    .catch(next);
+});
 
+router.delete("/:id", (req, res) => {
 
-
-
-router.delete("/:id", (req, res) => {});
+});
 
 router.use((err, req, res, next) => {
   res.status(err.status || 500).json({
-    customMessage: "something bad happened inside actions router",
+    customMessage: "Problem inside actions router",
     message: err.message,
     stack: err.stack,
   });
