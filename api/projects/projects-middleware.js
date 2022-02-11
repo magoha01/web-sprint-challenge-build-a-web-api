@@ -26,7 +26,7 @@ const validateProject = async (req, res, next) => {
       });
     } else if (!description || !description.trim()) {
       res.status(400).json({
-        message: "Description, required.",
+        message: "Description required.",
       });
     } else if (!completed) {
       res.status(400).json({
@@ -47,20 +47,3 @@ module.exports = {
   validateProjectId,
   validateProject,
 };
-
-// if (!name || !name.trim()) {
-//
-// } else if (!description || !description.trim()) {
-//   res.status(400).json({
-//     message: "Description required.",
-//   });
-// } else if (completed === null) {
-//   res.status(400).json({
-//     message: "completion status required",
-//   });
-// } else {
-//   req.name = name.trim();
-//   req.description = description.trim();
-//   req.completed = completed;
-//   next();
-// }

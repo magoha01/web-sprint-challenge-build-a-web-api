@@ -60,8 +60,3 @@ router.use((err, req, res, next) => {
 
 module.exports = router;
 
-// {
-//     name: req.name,
-//     description: req.description,
-//     completed: req.completed,
-//   }
