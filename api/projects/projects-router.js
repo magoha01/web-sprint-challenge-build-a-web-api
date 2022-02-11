@@ -23,30 +23,32 @@ router.post("/", validateProject, (req, res, next) => {
     .catch(next);
 });
 
-router.put(
-  "/:id",
-  validateProjectId,
-  validateProject,
-  async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const { name, description, completed } = req.body;
-      // const project = await Projects.get(req.params.id);
-      const updatedProject = await Projects.update(id, {
-        name: name,
-        description: description,
-        completed: completed,
-      });
-      res.status.json(updatedProject);
-    } catch (err) {
-      next(err);
-    }
+router.put("/:id", validateProjectId, validateProject, (req, res, next) => {
+  Projects.update(req.params.id, req.body)
+    .then((project) => {
+      res.json(project);
+      console.log(project);
+    })
+    .catch(next);
+});
+
+router.delete("/:id", validateProjectId, async (req, res, next) => {
+  try {
+    await Projects.remove(req.params.id);
+    res.json(req.project);
+  } catch (err) {
+    next(err);
   }
-);
+});
 
-router.delete("/:id", (req, res, next) => {});
-
-router.get("/:id/actions", (req, res) => {});
+router.get("/:id/actions", validateProjectId, async (req, res, next) => {
+  try {
+    const getActions = await Projects.getProjectActions(req.params.id);
+    res.json(getActions);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.use((err, req, res, next) => {
   res.status(err.status || 500).json({
@@ -57,3 +59,9 @@ router.use((err, req, res, next) => {
 });
 
 module.exports = router;
+
+// {
+//     name: req.name,
+//     description: req.description,
+//     completed: req.completed,
+//   }
