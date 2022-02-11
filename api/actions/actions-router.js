@@ -1,7 +1,7 @@
 // Write your "actions" router here!
 const router = require("express").Router();
 const Actions = require("./actions-model");
-const { validateActionId, validateAction } = require("./actions-middlware");
+const { validateActionId, validateAction } = require("./actions-middleware");
 
 router.get("/", (req, res, next) => {
   Actions.get()
@@ -41,7 +41,7 @@ router.delete("/:id", validateActionId, async (req, res, next) => {
   }
 });
 
-router.use((err, req, res, next) => {
+router.use((err, req, res) => {
   res.status(err.status || 500).json({
     customMessage: "Problem inside actions router",
     message: err.message,

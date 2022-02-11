@@ -1,7 +1,11 @@
 // Write your "projects" router here!
 const router = require("express").Router();
 const Projects = require("./projects-model");
-const { validateProjectId, validateProject } = require("./projects-middleware");
+const {
+  validateProjectId,
+  validateProject,
+  validateCompleted,
+} = require("./projects-middleware");
 
 router.get("/", (req, res, next) => {
   Projects.get()
@@ -18,19 +22,44 @@ router.get("/:id", validateProjectId, (req, res) => {
 router.post("/", validateProject, (req, res, next) => {
   Projects.insert(req.body)
     .then((project) => {
-      res.status(201).json(project);
+      res.status(201).json({
+        ...project,
+      });
     })
     .catch(next);
 });
 
-router.put("/:id", validateProjectId, validateProject, (req, res, next) => {
-  Projects.update(req.params.id, req.body)
-    .then((project) => {
-      res.json(project);
-      console.log(project);
-    })
-    .catch(next);
-});
+router.put(
+  "/:id",
+  validateProjectId,
+  validateProject,
+  validateCompleted,
+  (req, res, next) => {
+    Projects.update(req.params.id, req.body)
+      .then((editedProject) => {
+        res.json(editedProject);
+        console.log(editedProject);
+      })
+      .catch(next);
+  }
+);
+
+// router.put(
+//   "/:id",
+//   validateProjectId,
+//   validateProject,
+//   async (req, res, next) => {
+//     try {
+//       const { id } = req.params;
+//       const changes = req.body;
+//       const changedProject = await Projects.get(id).update(id, changes);
+//       res.json(changedProject);
+//       console.log(changedProject);
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+// );
 
 router.delete("/:id", validateProjectId, async (req, res, next) => {
   try {
@@ -60,3 +89,11 @@ router.use((err, req, res, next) => {
 
 module.exports = router;
 
+// router.put("/:id", validateProjectId, validateProject, (req, res, next) => {
+//   Projects.update(req.params.id, req.body)
+//     .then((project) => {
+//       res.json(project);
+//       console.log(project);
+//     })
+//     .catch(next);
+// });

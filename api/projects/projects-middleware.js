@@ -19,7 +19,7 @@ const validateProjectId = async (req, res, next) => {
 
 const validateProject = async (req, res, next) => {
   try {
-    const { name, description, completed } = req.body;
+    const { name, description } = req.body;
     if (!name || !name.trim()) {
       res.status(400).json({
         message: "Name required.",
@@ -28,14 +28,9 @@ const validateProject = async (req, res, next) => {
       res.status(400).json({
         message: "Description required.",
       });
-    } else if (!completed) {
-      res.status(400).json({
-        message: "completion status required.",
-      });
     } else {
-      req.name = name.trim();
-      req.description = description.trim();
-      req.completed = completed;
+      req.name = name;
+      req.description = description;
       next();
     }
   } catch (err) {
@@ -43,7 +38,31 @@ const validateProject = async (req, res, next) => {
   }
 };
 
+const validateCompleted = async (req, res, next) => {
+  try {
+    const { completed } = req.body;
+    if (completed === true || completed === false) {
+      req.completed = completed;
+      next();
+    } else {
+      res.status(400).json({
+        message: "completed required.",
+      });
+    }
+  } catch (err) {
+    res.json({ error: err.message });
+    next(err);
+  }
+};
+
 module.exports = {
   validateProjectId,
   validateProject,
+  validateCompleted,
 };
+
+// else if (!completed) {
+//       res.status(400).json({
+//         message: "completion status required.",
+//       });
+//     }
