@@ -18,7 +18,26 @@ const validateProjectId = async (req, res, next) => {
   }
 };
 
-const validateProject = (req, res, next) => {};
+const validateProject = async (req, res, next) => {
+  try {
+    const { name, description } = req.body;
+    if (!name || !name.trim()) {
+      res.status(400).json({
+        message: "Name required.",
+      });
+    } else if (!description || !description.trim()) {
+      res.status(400).json({
+        message: "Description required.",
+      });
+    } else {
+      req.name = name.trim();
+      req.description = description.trim();
+      next();
+    }
+  } catch (err) {
+    next(err);
+  }
+};
 
 module.exports = {
   validateProjectId,
