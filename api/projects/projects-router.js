@@ -2,7 +2,6 @@
 const router = require("express").Router();
 const Projects = require("./projects-model");
 const { validateProjectId, validateProject } = require("./projects-middleware");
-const { resetWatchers } = require("nodemon/lib/monitor/watch");
 
 router.get("/", (req, res, next) => {
   Projects.get()
@@ -24,7 +23,26 @@ router.post("/", validateProject, (req, res, next) => {
     .catch(next);
 });
 
-router.put("/:id", validateProjectId, (req, res, next) => {});
+router.put(
+  "/:id",
+  validateProjectId,
+  validateProject,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { name, description, completed } = req.body;
+      // const project = await Projects.get(req.params.id);
+      const updatedProject = await Projects.update(id, {
+        name: name,
+        description: description,
+        completed: completed,
+      });
+      res.status.json(updatedProject);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 router.delete("/:id", (req, res, next) => {});
 
