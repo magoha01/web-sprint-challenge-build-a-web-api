@@ -16,6 +16,29 @@ const validateActionId = async (req, res, next) => {
     next(err);
   }
 };
+
+const validateAction= async (req, res, next) => {
+  try {
+    const { description, notes } = req.body;
+    if (!description || !description.trim()) {
+      res.status(400).json({
+        message: "description required.",
+      });
+    } else if (!notes || !notes.trim()) {
+      res.status(400).json({
+        message: "notes, required.",
+      });
+    } else {
+      req.description = description.trim();
+      req.notes = notes;
+      next();
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   validateActionId,
+  validateAction
 };
