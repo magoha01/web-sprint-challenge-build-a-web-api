@@ -1,6 +1,8 @@
 // Write your "projects" router here!
 const router = require("express").Router();
 const Projects = require("./projects-model");
+const { validateProjectId, validateProject } = require("./projects-middleware");
+const { resetWatchers } = require("nodemon/lib/monitor/watch");
 
 router.get("/", (req, res, next) => {
   Projects.get()
@@ -12,13 +14,17 @@ router.get("/", (req, res, next) => {
     });
 });
 
+router.get("/:id", validateProjectId, (req, res, next) => {
+  res.status(200).json(req.project);
+});
 
+router.post("/", (req, res) => {});
 
-// router.get("/:id", (req, res) => {});
-// router.post("/", (req, res) => {});
-// router.put("/:id", (req, res) => {});
-// router.delete("/:id", (req, res) => {});
-// router.get("/:id/actions", (req, res) => {});
+router.put("/:id", validateProjectId, (req, res, next) => {});
+
+router.delete("/:id", (req, res, next) => {});
+
+router.get("/:id/actions", (req, res) => {});
 
 router.use((err, req, res, next) => {
   res.status(err.status || 500).json({
