@@ -19,8 +19,8 @@ In meeting the minimum viable product (MVP) specifications listed below, your pr
 ### Task 1: Project Set Up
 
 - [X] Run `npm install` to install your dependencies.
-- [ ] Run tests locally executing `npm test`.
-- [ ] Reset the database to its original state executing `npm run resetdb`.
+- [X] Run tests locally executing `npm test`.
+- [X] Reset the database to its original state executing `npm run resetdb`.
 
 ### Task 2: Project Requirements (MVP)
 
@@ -43,7 +43,7 @@ A _"resetdb"_ script exists that allows you to reset the database to its origina
 
 Inside `api/projects/projects-router.js` build the following endpoints:
 
-- [ ] `[GET] /api/projects`
+- [X] `[GET] /api/projects`
   - Returns an array of projects as the body of the response.
   - If there are no projects it responds with an empty array.
 - [ ] `[GET] /api/projects/:id`
@@ -147,7 +147,7 @@ We have provided test data for all the resources.
 Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics. You might prepare by writing down your own answers before hand.
 
 1. The core features of Node.js and Express and why they are useful.
-1. Understand and explain the use of Middleware.
-1. The basic principles of the REST architectural style.
-1. Understand and explain the use of Express Routers.
-1. Describe tooling used to manually test the correctness of an API.
+2. Understand and explain the use of Middleware.
+3. The basic principles of the REST architectural style.
+4. Understand and explain the use of Express Routers.
+5. Describe tooling used to manually test the correctness of an API.
